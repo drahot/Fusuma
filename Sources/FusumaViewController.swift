@@ -65,6 +65,7 @@ public var fusumaVideoStartImage : UIImage? = nil
 public var fusumaVideoStopImage : UIImage? = nil
 
 public var fusumaCropImage: Bool = true
+public var fusumaSavesImage: Bool = false
 
 public var fusumaCameraRollTitle = "CAMERA ROLL"
 public var fusumaCameraTitle = "PHOTO"
