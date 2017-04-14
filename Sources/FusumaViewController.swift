@@ -28,6 +28,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     }
 }
 
+
 @objc public protocol FusumaDelegate: class {
     // MARK: Required
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode)
@@ -64,6 +65,7 @@ public var fusumaVideoStartImage : UIImage? = nil
 public var fusumaVideoStopImage : UIImage? = nil
 
 public var fusumaCropImage: Bool = true
+
 public var fusumaSavesImage: Bool = false
 
 public var fusumaCameraRollTitle = "CAMERA ROLL"
@@ -101,6 +103,7 @@ public class FusumaViewController: UIViewController {
     
     public var hasVideo = false
     public var cropHeightRatio: CGFloat = 1
+    
     public var mode: FusumaMode = .camera {
         didSet {
             if self.isViewLoaded {
@@ -109,7 +112,6 @@ public class FusumaViewController: UIViewController {
         }
     }
     var oldMode: FusumaMode = .camera
-    
     public var modeOrder: FusumaModeOrder = .libraryFirst
     var willFilter = true
     
@@ -310,14 +312,17 @@ public class FusumaViewController: UIViewController {
     }
     
     @IBAction func libraryButtonPressed(_ sender: UIButton) {
+        
         self.mode = FusumaMode.library
     }
     
     @IBAction func photoButtonPressed(_ sender: UIButton) {
+        
         self.mode = FusumaMode.camera
     }
     
     @IBAction func videoButtonPressed(_ sender: UIButton) {
+        
         self.mode = FusumaMode.video
     }
     
@@ -358,6 +363,7 @@ public class FusumaViewController: UIViewController {
                                                             self.dismiss(animated: true, completion: {
                                                                 self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
                                                             })
+                                                            
                                                             let metaData = ImageMetadata(
                                                                 mediaType: self.albumView.phAsset.mediaType,
                                                                 pixelWidth: self.albumView.phAsset.pixelWidth,
@@ -370,8 +376,8 @@ public class FusumaViewController: UIViewController {
                                                                 isHidden: self.albumView.phAsset.isHidden)
                                                             
                                                             self.delegate?.fusumaImageSelected(result!, source: self.mode, metaData: metaData)
+                                                            
                                                         })
-                                                        
                 }
             })
         } else {
@@ -432,12 +438,13 @@ private extension FusumaViewController {
     }
     
     func changeMode(force: Bool = false) {
+        
         if !force && self.oldMode == mode {
             return
         }
         
         //operate this switch before changing mode to stop cameras
-        switch self.mode {
+        switch self.oldMode {
         case .library:
             break
         case .camera:
