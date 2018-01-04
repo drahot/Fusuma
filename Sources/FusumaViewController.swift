@@ -310,6 +310,7 @@ public class FusumaViewController: UIViewController {
             videoView.layoutIfNeeded()
             videoView.initialize()
         }
+        changeMode(force: true)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
