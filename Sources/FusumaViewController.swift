@@ -267,39 +267,27 @@ public class FusumaViewController: UIViewController {
             cameraView.fullAspectRatioConstraint.isActive = true
             cameraView.croppedAspectRatioConstraint?.isActive = false
         }
-        
-        if #available(iOS 11.0, *) {
-            photoLibraryViewerContainer.isHidden = true
-            menuView.isHidden = true
-            libraryButton.isHidden = true
-            cameraButton.isHidden = true
-            videoButton?.isHidden = true
-        }
     }
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
+    override public func viewDidLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if #available(iOS 11.0, *) {
+            view.frame = CGRect(x: 0,
+                                y: view.safeAreaInsets.top,
+                                width: view.frame.width,
+                                height: view.frame.height - view.safeAreaInsets.bottom)
+        }
+    }
+    
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if #available(iOS 11.0, *) {
-            let height = view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
-            view.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.frame.width, height: height)
-            photoLibraryViewerContainer.isHidden = false
-            menuView.isHidden = false
-            libraryButton.isHidden = false
-            cameraButton.isHidden = false
-            videoButton?.isHidden = false
-            view.layoutIfNeeded()
-        }
         
         albumView.frame  = CGRect(origin: CGPoint.zero, size: photoLibraryViewerContainer.frame.size)
-        albumView.layoutIfNeeded()
         cameraView.frame = CGRect(origin: CGPoint.zero, size: cameraShotContainer.frame.size)
-        cameraView.layoutIfNeeded()
-        
-        
         albumView.initialize()
         cameraView.initialize()
         
@@ -309,9 +297,10 @@ public class FusumaViewController: UIViewController {
             videoView.layoutIfNeeded()
             videoView.initialize()
         }
+        
         changeMode(force: true)
     }
-    
+
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.stopAll()
