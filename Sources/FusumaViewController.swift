@@ -140,6 +140,8 @@ public class FusumaViewController: UIViewController {
     
     public weak var delegate: FusumaDelegate? = nil
     
+    private var isFirstLoad = true
+    
     override public func loadView() {
         
         if let view = UINib(nibName: "FusumaViewController", bundle: Bundle(for: self.classForCoder)).instantiate(withOwner: self, options: nil).first as? UIView {
@@ -277,40 +279,46 @@ public class FusumaViewController: UIViewController {
         }
     }
     
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if self.isFirstLoad {
+            self.isFirstLoad = false
+            if #available(iOS 11.0, *) {
+                let height = view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
+                view.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.frame.width, height: height)
+                photoLibraryViewerContainer.isHidden = false
+                menuView.isHidden = false
+                libraryButton.isHidden = false
+                cameraButton.isHidden = false
+                videoButton?.isHidden = false
+                view.layoutIfNeeded()
+            }
+            
+            albumView.frame  = CGRect(origin: CGPoint.zero, size: photoLibraryViewerContainer.frame.size)
+            albumView.layoutIfNeeded()
+            cameraView.frame = CGRect(origin: CGPoint.zero, size: cameraShotContainer.frame.size)
+            cameraView.layoutIfNeeded()
+            
+            
+            albumView.initialize()
+            cameraView.initialize()
+            
+            if hasVideo {
+                
+                videoView.frame = CGRect(origin: CGPoint.zero, size: videoShotContainer.frame.size)
+                videoView.layoutIfNeeded()
+                videoView.initialize()
+            }
+            changeMode(force: true)
+        }
+    }
+    
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if #available(iOS 11.0, *) {
-            let height = view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
-            view.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.frame.width, height: height)
-            photoLibraryViewerContainer.isHidden = false
-            menuView.isHidden = false
-            libraryButton.isHidden = false
-            cameraButton.isHidden = false
-            videoButton?.isHidden = false
-            view.layoutIfNeeded()
-        }
-
-        albumView.frame  = CGRect(origin: CGPoint.zero, size: photoLibraryViewerContainer.frame.size)
-        albumView.layoutIfNeeded()
-        cameraView.frame = CGRect(origin: CGPoint.zero, size: cameraShotContainer.frame.size)
-        cameraView.layoutIfNeeded()
-        
-        
-        albumView.initialize()
-        cameraView.initialize()
-        
-        if hasVideo {
-            
-            videoView.frame = CGRect(origin: CGPoint.zero, size: videoShotContainer.frame.size)
-            videoView.layoutIfNeeded()
-            videoView.initialize()
-        }
-        changeMode(force: true)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
