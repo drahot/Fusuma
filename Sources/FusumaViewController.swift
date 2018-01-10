@@ -267,34 +267,41 @@ public class FusumaViewController: UIViewController {
             cameraView.fullAspectRatioConstraint.isActive = true
             cameraView.croppedAspectRatioConstraint?.isActive = false
         }
+        if #available(iOS 11.0, *) {
+            menuView.isHidden = true
+            libraryButton.isHidden = true
+            cameraButton.isHidden = true
+            videoButton?.isHidden = true
+        }
     }
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
-    override public func viewDidLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
         if #available(iOS 11.0, *) {
             view.frame = CGRect(x: 0,
                                 y: view.safeAreaInsets.top,
                                 width: view.frame.width,
-                                height: view.frame.height - view.safeAreaInsets.bottom)
+                                height: view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom)
+            menuView.isHidden = false
+            libraryButton.isHidden = false
+            cameraButton.isHidden = false
+            videoButton?.isHidden = false
         }
-    }
-    
-    override public func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
         albumView.frame  = CGRect(origin: CGPoint.zero, size: photoLibraryViewerContainer.frame.size)
+        albumView.layoutIfNeeded()
         cameraView.frame = CGRect(origin: CGPoint.zero, size: cameraShotContainer.frame.size)
+        cameraView.layoutIfNeeded()
         albumView.initialize()
         cameraView.initialize()
         
         if hasVideo {
             
             videoView.frame = CGRect(origin: CGPoint.zero, size: videoShotContainer.frame.size)
-            videoView.layoutIfNeeded()
             videoView.initialize()
         }
         
