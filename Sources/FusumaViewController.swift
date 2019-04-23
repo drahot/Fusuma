@@ -174,51 +174,51 @@ public class FusumaViewController: UIViewController {
         
         if fusumaTintIcons {
             
-            libraryButton.setImage(albumImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+            libraryButton.setImage(albumImage?.withRenderingMode(.alwaysTemplate), for: UIControl.State())
             libraryButton.setImage(albumImage?.withRenderingMode(.alwaysTemplate), for: .highlighted)
             libraryButton.setImage(albumImage?.withRenderingMode(.alwaysTemplate), for: .selected)
             libraryButton.tintColor = fusumaTintColor
             libraryButton.adjustsImageWhenHighlighted = false
             
-            cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+            cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: UIControl.State())
             cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: .highlighted)
             cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: .selected)
             cameraButton.tintColor  = fusumaTintColor
             cameraButton.adjustsImageWhenHighlighted  = false
             
-            closeButton.setImage(closeImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+            closeButton.setImage(closeImage?.withRenderingMode(.alwaysTemplate), for: UIControl.State())
             closeButton.setImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .highlighted)
             closeButton.setImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .selected)
             closeButton.tintColor = fusumaBaseTintColor
             
-            videoButton.setImage(videoImage, for: UIControlState())
+            videoButton.setImage(videoImage, for: UIControl.State())
             videoButton.setImage(videoImage, for: .highlighted)
             videoButton.setImage(videoImage, for: .selected)
             videoButton.tintColor  = fusumaTintColor
             videoButton.adjustsImageWhenHighlighted = false
             
-            doneButton.setImage(checkImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+            doneButton.setImage(checkImage?.withRenderingMode(.alwaysTemplate), for: UIControl.State())
             doneButton.tintColor = fusumaBaseTintColor
             
         } else {
             
-            libraryButton.setImage(albumImage, for: UIControlState())
+            libraryButton.setImage(albumImage, for: UIControl.State())
             libraryButton.setImage(albumImage, for: .highlighted)
             libraryButton.setImage(albumImage, for: .selected)
             libraryButton.tintColor = nil
             
-            cameraButton.setImage(cameraImage, for: UIControlState())
+            cameraButton.setImage(cameraImage, for: UIControl.State())
             cameraButton.setImage(cameraImage, for: .highlighted)
             cameraButton.setImage(cameraImage, for: .selected)
             cameraButton.tintColor = nil
             
-            videoButton.setImage(videoImage, for: UIControlState())
+            videoButton.setImage(videoImage, for: UIControl.State())
             videoButton.setImage(videoImage, for: .highlighted)
             videoButton.setImage(videoImage, for: .selected)
             videoButton.tintColor = nil
             
-            closeButton.setImage(closeImage, for: UIControlState())
-            doneButton.setImage(checkImage, for: UIControlState())
+            closeButton.setImage(closeImage, for: UIControl.State())
+            doneButton.setImage(checkImage, for: UIControl.State())
         }
         
         cameraButton.clipsToBounds  = true
@@ -259,7 +259,7 @@ public class FusumaViewController: UIViewController {
         
         if fusumaCropImage {
             let heightRatio = getCropHeightRatio()
-            cameraView.croppedAspectRatioConstraint = NSLayoutConstraint(item: cameraView.previewViewContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: cameraView.previewViewContainer, attribute: NSLayoutAttribute.width, multiplier: heightRatio, constant: 0)
+            cameraView.croppedAspectRatioConstraint = NSLayoutConstraint(item: cameraView.previewViewContainer, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: cameraView.previewViewContainer, attribute: NSLayoutConstraint.Attribute.width, multiplier: heightRatio, constant: 0)
             
             cameraView.fullAspectRatioConstraint.isActive = false
             cameraView.croppedAspectRatioConstraint?.isActive = true
@@ -477,22 +477,22 @@ private extension FusumaViewController {
             titleLabel.text = NSLocalizedString(fusumaCameraRollTitle, comment: fusumaCameraRollTitle)
             
             highlightButton(libraryButton)
-            self.view.bringSubview(toFront: photoLibraryViewerContainer)
+            self.view.bringSubviewToFront(photoLibraryViewerContainer)
         case .camera:
             titleLabel.text = NSLocalizedString(fusumaCameraTitle, comment: fusumaCameraTitle)
             
             highlightButton(cameraButton)
-            self.view.bringSubview(toFront: cameraShotContainer)
+            self.view.bringSubviewToFront(cameraShotContainer)
             cameraView.startCamera()
         case .video:
             titleLabel.text = fusumaVideoTitle
             
             highlightButton(videoButton)
-            self.view.bringSubview(toFront: videoShotContainer)
+            self.view.bringSubviewToFront(videoShotContainer)
             videoView.startCamera()
         }
         doneButton.isHidden = !hasGalleryPermission
-        self.view.bringSubview(toFront: menuView)
+        self.view.bringSubviewToFront(menuView)
     }
     
     
